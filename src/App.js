@@ -22,6 +22,28 @@ const list =  [
 ];
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state={
+      list: list
+    };
+
+    this.onDismiss=this.onDismiss.bind(this);
+    this.onClickMe = this.onClickMe.bind(this);
+  }
+
+  onDismiss(id){
+    const isNotId = item => item.objectID !== id;
+    const updatedList = this.state.list.filter(isNotId);
+    this.setState({list:updatedList});
+  }
+
+  onClickMe() {
+    console.log("clicked in class");
+    console.log(this);
+  }
+
   render() {
     var helloWorld = 'Welcome to the road to learn react';
     var firstname='peanut';
@@ -29,18 +51,40 @@ class App extends Component {
     return (
       <div className="App">
       {
-        list.map(item =>
-        
+        this.state.list.map(item =>
+
 
             <div key={item.objectID}>
               <span> <a href={item.url}>{item.title}</a> </span>
               <span>{item.author}</span>
               <span>{item.num_comments}</span>
               <span>{item.points}</span>
+              <span>
+                <button
+                  onClick={()=>this.onDismiss(item.objectID)}
+                  type="button"
+                >
+                Dismiss
+                </button>
+              </span>
+
+
             </div>
 
         )
       }
+        <button
+          onClick={this.onClickMe}
+          type="button"> Function Defined in class
+        </button>
+        <button
+          onClick={console.log("Function NOT Defined")}
+          type="button"> Function NOT Defined
+        </button>
+        <button
+          onClick={()=>console.log("Function defined with Arrow")}
+          type="button"> Function Defined with Arrow
+        </button>
       </div>
     );
   }
